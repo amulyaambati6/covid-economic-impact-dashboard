@@ -1,0 +1,50 @@
+country,code,year,gdp_growth_pct
+Brazil,BRA,2018,1.784
+Brazil,BRA,2019,1.221
+Brazil,BRA,2020,-3.277
+Brazil,BRA,2021,4.763
+Brazil,BRA,2022,3.017
+Brazil,BRA,2023,3.242
+Brazil,BRA,2024,3.419
+China,CHN,2018,6.758
+China,CHN,2019,6.067
+China,CHN,2020,2.34
+China,CHN,2021,8.57
+China,CHN,2022,3.134
+China,CHN,2023,5.416
+China,CHN,2024,4.958
+Germany,DEU,2018,1.136
+Germany,DEU,2019,0.978
+Germany,DEU,2020,-4.132
+Germany,DEU,2021,3.91
+Germany,DEU,2022,1.809
+Germany,DEU,2023,-0.87
+Germany,DEU,2024,-0.496
+France,FRA,2018,1.646
+France,FRA,2019,2.027
+France,FRA,2020,-7.441
+France,FRA,2021,6.882
+France,FRA,2022,2.717
+France,FRA,2023,1.439
+France,FRA,2024,1.19
+India,IND,2018,6.454
+India,IND,2019,3.871
+India,IND,2020,-5.778
+India,IND,2021,9.69
+India,IND,2022,7.609
+India,IND,2023,7.21
+India,IND,2024,7.099
+Rwanda,RWA,2018,8.071
+Rwanda,RWA,2019,9.286
+Rwanda,RWA,2020,-2.777
+Rwanda,RWA,2021,8.411
+Rwanda,RWA,2022,9.825
+Rwanda,RWA,2023,8.56
+Rwanda,RWA,2024,7.227
+United States,USA,2018,2.967
+United States,USA,2019,2.584
+United States,USA,2020,-2.081
+United States,USA,2021,6.152
+United States,USA,2022,2.524
+United States,USA,2023,2.934
+United States,USA,2024,2.793

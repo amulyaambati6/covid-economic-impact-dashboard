@@ -1,0 +1,50 @@
+country;code;year;inflation_pct
+Brazil;BRA;2018;3.665
+Brazil;BRA;2019;3.733
+Brazil;BRA;2020;3.212
+Brazil;BRA;2021;8.302
+Brazil;BRA;2022;9.28
+Brazil;BRA;2023;4.594
+Brazil;BRA;2024;4.367
+China;CHN;2018;2.075
+China;CHN;2019;2.899
+China;CHN;2020;2.419
+China;CHN;2021;0.981
+China;CHN;2022;1.974
+China;CHN;2023;0.235
+China;CHN;2024;0.218
+Germany;DEU;2018;1.732
+Germany;DEU;2019;1.446
+Germany;DEU;2020;0.145
+Germany;DEU;2021;3.067
+Germany;DEU;2022;6.873
+Germany;DEU;2023;5.946
+Germany;DEU;2024;2.256
+France;FRA;2018;1.852
+France;FRA;2019;1.107
+France;FRA;2020;0.478
+France;FRA;2021;1.641
+France;FRA;2022;5.223
+France;FRA;2023;4.88
+France;FRA;2024;1.997
+India;IND;2018;3.939
+India;IND;2019;3.73
+India;IND;2020;6.623
+India;IND;2021;5.131
+India;IND;2022;6.699
+India;IND;2023;5.649
+India;IND;2024;4.953
+Rwanda;RWA;2018;-0.311
+Rwanda;RWA;2019;3.348
+Rwanda;RWA;2020;9.85
+Rwanda;RWA;2021;-0.391
+Rwanda;RWA;2022;17.689
+Rwanda;RWA;2023;19.79
+Rwanda;RWA;2024;1.77
+United States;USA;2018;2.443
+United States;USA;2019;1.812
+United States;USA;2020;1.234
+United States;USA;2021;4.698
+United States;USA;2022;8.003
+United States;USA;2023;4.116
+United States;USA;2024;2.95

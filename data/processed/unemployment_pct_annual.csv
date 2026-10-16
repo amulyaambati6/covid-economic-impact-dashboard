@@ -1,0 +1,50 @@
+country;code;year;unemployment_pct
+Brazil;BRA;2018;12.329
+Brazil;BRA;2019;11.936
+Brazil;BRA;2020;13.697
+Brazil;BRA;2021;13.158
+Brazil;BRA;2022;9.231
+Brazil;BRA;2023;7.947
+Brazil;BRA;2024;6.801
+China;CHN;2018;4.31
+China;CHN;2019;4.56
+China;CHN;2020;5.0
+China;CHN;2021;4.55
+China;CHN;2022;4.98
+China;CHN;2023;4.67
+China;CHN;2024;4.59
+Germany;DEU;2018;3.384
+Germany;DEU;2019;3.163
+Germany;DEU;2020;3.881
+Germany;DEU;2021;3.594
+Germany;DEU;2022;3.137
+Germany;DEU;2023;3.071
+Germany;DEU;2024;3.4
+France;FRA;2018;9.018
+France;FRA;2019;8.415
+France;FRA;2020;8.009
+France;FRA;2021;7.871
+France;FRA;2022;7.303
+France;FRA;2023;7.335
+France;FRA;2024;7.4
+India;IND;2018;7.652
+India;IND;2019;6.51
+India;IND;2020;7.859
+India;IND;2021;6.38
+India;IND;2022;4.822
+India;IND;2023;4.172
+India;IND;2024;4.173
+Rwanda;RWA;2018;10.759
+Rwanda;RWA;2019;11.236
+Rwanda;RWA;2020;11.829
+Rwanda;RWA;2021;15.775
+Rwanda;RWA;2022;15.084
+Rwanda;RWA;2023;12.352
+Rwanda;RWA;2024;11.331
+United States;USA;2018;3.896
+United States;USA;2019;3.669
+United States;USA;2020;8.055
+United States;USA;2021;5.349
+United States;USA;2022;3.65
+United States;USA;2023;3.638
+United States;USA;2024;4.022
