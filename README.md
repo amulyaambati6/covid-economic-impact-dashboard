@@ -1,4 +1,7 @@
 # COVID-19 and the Global Economy
+## Project Documentation
+
+- [Team Planning Document (Google Docs)](https://docs.google.com/document/d/1mCDpxkIXW9CLHjlG38D0ouK-Z_i__Tn6C99cpsMyHT8/edit?usp=sharing)
 
 CentraleDigitalLab Data Storytelling university project exploring how COVID-19 affected the global economy. The presentation is planned for 20 minutes by a team of four, with a deadline of October 21, 2026.
 
