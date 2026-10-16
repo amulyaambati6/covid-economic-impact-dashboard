@@ -21,8 +21,6 @@ env/
 Thumbs.db
 
 # Downloaded or generated data
-data/raw/*
-!data/raw/.gitkeep
 data/processed/*
 !data/processed/.gitkeep
 !data/processed/coverage_audit.csv
