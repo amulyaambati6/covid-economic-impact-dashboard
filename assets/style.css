@@ -1,0 +1,9 @@
+/* Simple, readable defaults for the student dashboard. */
+:root { font-family: system-ui, sans-serif; color: #1f2937; background: #f4f7fb; }
+body { margin: 0; }
+.app-shell { max-width: 960px; margin: 0 auto; padding: 0 1.25rem; }
+.site-header { padding: 1.5rem 0; border-bottom: 1px solid #cbd5e1; }
+h1 { margin: 0 0 0.75rem; color: #123b5d; }
+nav a { color: #075985; margin-right: 0.35rem; }
+.page-content { min-height: 55vh; padding: 2rem 0; line-height: 1.6; }
+footer { border-top: 1px solid #cbd5e1; padding: 1rem 0 2rem; color: #526174; font-size: 0.9rem; }
