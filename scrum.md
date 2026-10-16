@@ -34,6 +34,8 @@ Pair review major data transformations and claims across roles. Roles are a star
 - [x] Migrated app navigation and page content from Dash to Streamlit.
 - [x] Preserved the existing World Bank coverage audit and audit script.
 - [x] Updated setup instructions and future-session guidance for Streamlit.
+- [x] Cleaned the 3 World Bank indicators (GDP growth, inflation, unemployment) into `data/processed/{gdp_growth,inflation,unemployment}/`, matching the 7-country format of the stringency and cases/deaths datasets.
+- [x] Built `merged_dataset_by_month.csv` and `merged_dataset_by_year.csv` in `data/processed/`, limited to the 2020-2022 window every dataset covers (see `data/processed/merge_quality_report.md`).
 - [ ] Assign names and confirm ownership.
 - [ ] Agree final countries, measures, and source choices.
 - [ ] Install dependencies in the `covid-dashboard` Conda environment and smoke-test the Streamlit app.
