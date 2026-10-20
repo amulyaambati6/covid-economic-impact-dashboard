@@ -1,6 +1,7 @@
 # COVID-19 and the Global Economy
 ## Project Documentation
 
+- **Live dashboard: <https://covid-economic-impact-dashboard.streamlit.app>**
 - [Project document (Google Docs)](https://docs.google.com/document/d/1mCDpxkIXW9CLHjlG38D0ouK-Z_i__Tn6C99cpsMyHT8/edit?usp=sharing)
 
 CentraleDigitalLab Data Storytelling university project exploring how COVID-19 affected the global economy: a multi-page interactive dashboard and a 20-minute presentation by a team of four, due October 21, 2026.
@@ -99,6 +100,8 @@ python -m unittest discover -s tests
 The tests use Python's built-in `unittest`, so `pytest` is not needed.
 
 ## Deployment (Streamlit Community Cloud)
+
+The app is live at **<https://covid-economic-impact-dashboard.streamlit.app>**.
 
 The app runs on [Streamlit Community Cloud](https://share.streamlit.io) straight from this GitHub repository. Everything it needs is committed: the entrypoint `app.py`, `requirements.txt`, the theme in `.streamlit/config.toml`, the files in `assets/`, and the processed CSV files in `data/processed/`. All paths are relative to the project folder, no secrets are used, and no system packages are needed.
 
