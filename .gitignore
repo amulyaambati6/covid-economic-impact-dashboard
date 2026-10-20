@@ -13,6 +13,8 @@ env/
 .env
 .env.*
 !.env.example
+# Streamlit secrets (for example a database password); never commit
+.streamlit/secrets.toml
 
 # Editors and operating-system files
 .vscode/

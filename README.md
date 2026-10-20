@@ -93,6 +93,7 @@ python -m unittest discover -s tests
 | `tests/test_analysis.py` | The shared calculations in `src/analysis/`: country summary table, GDP index, recovery table, correlations and Bonferroni correction. |
 | `tests/test_processed_data.py` | Seven countries, expected years and months, no duplicate keys, no missing values in the merged tables, value ranges, yearly totals equal monthly sums. |
 | `tests/test_findings.py` | Key figures quoted in `findings_summary.md` recomputed from the processed data. |
+| `tests/test_database_script.py` | The MySQL bonus files: `database/load_data.sql` matches the current processed data; row counts, keys, and the tables and views in the schema. No MySQL server needed. |
 | `tests/test_data_validation.py` | The `missing_years()` helper. |
 
 The tests use Python's built-in `unittest`, so `pytest` is not needed.
@@ -120,7 +121,21 @@ To deploy (or redeploy under a new account):
 | Semantic elements (text, labels, annotations) | Research question, insights, and limitations on every page |
 | Professional visual design (CSS) | Done: custom theme and stylesheet |
 | Deployment (optional) | Prepared for Streamlit Community Cloud (above) |
-| Bonus: MySQL database | Not done. It is an optional bonus challenge; the dashboard reads the processed CSV files directly |
+| Bonus: MySQL database | Done (optional): schema, load script, ER diagram, example queries, and verification in `database/` (below). The dashboard itself does not need MySQL |
+
+## Bonus: MySQL database
+
+> **Optional and separate from the main project.** This answers the brief's bonus challenge only. The dashboard, the analysis, the findings, and the tests do not use MySQL, and you do not need MySQL installed to run or deploy the project. The database is a separate copy of the same cleaned data, organised as relational tables.
+
+`database/` contains a MySQL 8 relational database built from the same processed CSV files the dashboard reads (no second data pipeline). It has five tables (`data_source`, `country`, `indicator`, `annual_observation`, `monthly_observation`) linked by foreign keys, plus five views that rebuild the dashboard's derived tables. Each value is stored once and missing values are absent rows, never zero.
+
+```powershell
+mysql -u root -p -e "source database/schema.sql"
+mysql -u root -p -e "source database/load_data.sql"
+python database/verify_database.py --user root --password
+```
+
+The ER diagram, the reasons for the design, all setup steps, example queries, and what was tested are in [`database/README.md`](database/README.md). The deployed dashboard does not connect to MySQL. It keeps reading the CSV files, so it needs no database server or credentials; the database README explains how a live connection would work.
 
 ## Check economic indicator coverage
 
@@ -190,6 +205,7 @@ src/visualizations/          charts.py (country colours, chart builders), layout
 data/raw/                    Original downloaded data (kept unchanged)
 data/processed/              Cleaned and merged datasets used by the app, plus the coverage audit
 notebooks/                   Exploratory data analysis notebook (Colab)
+database/                    Bonus MySQL database: schema, load script, ER diagram, queries
 tests/                       App smoke tests, data integrity checks, and findings checks
 check_data_coverage.py       World Bank coverage audit
 findings_summary.md          Authoritative findings for the dashboard and presentation
