@@ -1,23 +1,112 @@
 
-"""Plotly charts for the COVID-19 and global economy dashboard."""
+"""Plotly charts and shared chart styling for the COVID-19 dashboard.
+
+`COUNTRY_COLORS`, `COUNTRY_SYMBOLS`, `COUNTRY_ORDER` and `style_figure()`
+are used by every chart in `pages/home.py`, so each country keeps the same
+colour, marker and legend position on every chart and for every filter
+selection.
+"""
 
 import pandas as pd
 import plotly.express as px
 import streamlit as st
 
 
-COLORS = px.colors.qualitative.Set2
+# Fixed order used for legends, tables, and colour assignment.
+COUNTRY_ORDER = [
+    "Brazil",
+    "China",
+    "France",
+    "Germany",
+    "India",
+    "Rwanda",
+    "United States",
+]
+
+# Colour-blind-safe Okabe-Ito hues (the same family as the EDA notebook).
+# India and the United States are slightly darker than the original
+# Okabe-Ito values so that every line has at least 3:1 contrast on white.
+COUNTRY_COLORS = {
+    "Brazil": "#009E73",         # bluish green
+    "China": "#D55E00",          # vermillion
+    "France": "#0072B2",         # blue
+    "Germany": "#4D4D4D",        # dark grey
+    "India": "#B87A00",          # dark orange
+    "Rwanda": "#CC79A7",         # reddish purple
+    "United States": "#2B8FCC",  # sky blue
+}
+
+# A different marker per country, so lines can be told apart without colour.
+COUNTRY_SYMBOLS = {
+    "Brazil": "circle",
+    "China": "square",
+    "France": "diamond",
+    "Germany": "triangle-up",
+    "India": "x",
+    "Rwanda": "star",
+    "United States": "cross",
+}
+
+# Shared look for reference lines (zero line, 2019 level, ...).
+REFERENCE_LINE = dict(line_dash="dash", line_color="#6B7280", line_width=1)
+
+# Keep the older name available for any code that imported it.
+COLORS = [COUNTRY_COLORS[c] for c in COUNTRY_ORDER]
+
+
+def country_style(markers: bool = True) -> dict:
+    """Keyword arguments that give Plotly Express charts fixed country styling."""
+    style = {
+        "color_discrete_map": COUNTRY_COLORS,
+        "category_orders": {"country": COUNTRY_ORDER},
+    }
+    if markers:
+        style["symbol_map"] = COUNTRY_SYMBOLS
+    return style
+
+
+NAVY = "#1C2B44"
+MUTED = "#5B6475"
+GRID = "#EDE4DD"
+FONT_FAMILY = "Inter, 'Source Sans Pro', Arial, sans-serif"
+
+
+def style_figure(fig, height: int = 460, legend_title: str = "Country"):
+    """Apply the dashboard's common layout: transparent background so the
+    chart sits on its card, readable fonts, light grid lines."""
+    fig.update_layout(
+        template="plotly_white",
+        height=height,
+        paper_bgcolor="rgba(0,0,0,0)",
+        plot_bgcolor="rgba(0,0,0,0)",
+        font=dict(family=FONT_FAMILY, size=14, color=NAVY),
+        title=dict(
+            font=dict(size=17, color=NAVY),
+            x=0, xanchor="left", y=0.97, yanchor="top",
+        ),
+        legend=dict(
+            title_text=legend_title,
+            font=dict(size=13),
+            bgcolor="rgba(0,0,0,0)",
+        ),
+        margin=dict(l=10, r=10, t=64, b=36),
+        hoverlabel=dict(font_size=13, font_family=FONT_FAMILY),
+    )
+    fig.update_xaxes(
+        showgrid=False, linecolor="#B9AEA6", ticks="outside",
+        tickcolor="#B9AEA6", title_font=dict(color=MUTED),
+    )
+    fig.update_yaxes(
+        gridcolor=GRID, zerolinecolor="#B9AEA6", title_font=dict(color=MUTED),
+    )
+    return fig
 
 
 def _show_chart(fig, key: str) -> None:
     """Display a responsive Plotly chart in Streamlit."""
-    fig.update_layout(
-        template="plotly_white",
-        hovermode="x unified",
-        legend_title_text="Country",
-        margin=dict(l=20, r=20, t=65, b=20),
-    )
-    st.plotly_chart(fig, use_container_width=True, key=key)
+    style_figure(fig)
+    fig.update_layout(hovermode="x unified")
+    st.plotly_chart(fig, width="stretch", key=key)
 
 
 def _check_columns(df: pd.DataFrame, columns: list[str]) -> bool:
@@ -65,14 +154,15 @@ def _country_line(
         x=x,
         y=y,
         color="country",
+        symbol="country",
         markers=True,
-        color_discrete_sequence=COLORS,
         title=title,
         labels={
             x: x.replace("_", " ").title(),
             y: y_label,
             "country": "Country",
         },
+        **country_style(),
     )
     _show_chart(fig, key)
 
@@ -259,13 +349,13 @@ def plot_covid_economic_relationship(
         text="country",
         hover_name="country",
         color="country",
-        color_discrete_sequence=COLORS,
         title="COVID-19 Mortality and GDP Growth in 2020",
         labels={
             "new_deaths_per_million":
                 "Sum of monthly deaths per million",
             economic_column: "GDP growth (%)",
         },
+        **country_style(markers=False),
     )
     fig.update_traces(textposition="top center")
     _show_chart(fig, "covid-economic-relationship-chart")
@@ -288,7 +378,7 @@ def plot_economic_relationship(
         monthly_df,
         economic_column=economic_column,
     )
-    
+
 
 def plot_health_economic_relationship(
     annual_df,
@@ -302,9 +392,6 @@ def plot_health_economic_relationship(
     Compare one annual health/policy indicator with one
     annual economic indicator. Each point represents a country-year.
     """
-    import plotly.express as px
-    import streamlit as st
-
     required = {
         "country",
         "year",
@@ -324,10 +411,10 @@ def plot_health_economic_relationship(
         ["country", "year", health_column, economic_column]
     ].copy()
 
-    plot_df[health_column] = __import__("pandas").to_numeric(
+    plot_df[health_column] = pd.to_numeric(
         plot_df[health_column], errors="coerce"
     )
-    plot_df[economic_column] = __import__("pandas").to_numeric(
+    plot_df[economic_column] = pd.to_numeric(
         plot_df[economic_column], errors="coerce"
     )
     plot_df = plot_df.dropna(
@@ -350,12 +437,109 @@ def plot_health_economic_relationship(
             health_column: health_label,
             economic_column: economic_label,
         },
+        **country_style(markers=False),
     )
 
-    fig.update_layout(
-        legend_title_text="Country",
-        height=500,
+    style_figure(fig, height=500)
+    st.plotly_chart(fig, width="stretch")
+
+
+# ---------------------------------------------------------------------------
+# Builders used by the research pages
+# ---------------------------------------------------------------------------
+
+SHOCK_YEARS = (2020, 2021)
+
+
+def shade_years(fig, start=SHOCK_YEARS[0], end=SHOCK_YEARS[1], label="2020–2021"):
+    """Shade a block of years on an annual chart (default: the pandemic shock)."""
+    fig.add_vrect(
+        x0=start - 0.5,
+        x1=end + 0.5,
+        fillcolor="#F3E3E0",
+        opacity=0.6,
+        line_width=0,
+        layer="below",
+        annotation_text=label,
+        annotation_position="top left",
+        annotation_font_color=MUTED,
+        annotation_font_size=12,
     )
+    return fig
 
-    st.plotly_chart(fig, use_container_width=True)
 
+def country_line_chart(df, x, y, title, y_label, x_label=None, markers=True,
+                       shade=False, zero_line=False, log_y=False):
+    """Line chart with one line per country in the fixed colours."""
+    plot_df = df.dropna(subset=[x, y]).sort_values(["country", x])
+    if plot_df.empty:
+        return None
+    fig = px.line(
+        plot_df,
+        x=x,
+        y=y,
+        color="country",
+        symbol="country" if markers else None,
+        markers=markers,
+        log_y=log_y,
+        title=title,
+        labels={
+            x: x_label or ("Year" if x == "year" else "Month"),
+            y: y_label,
+            "country": "Country",
+        },
+        **country_style(markers=markers),
+    )
+    if x == "year":
+        fig.update_xaxes(dtick=1)
+    if shade:
+        shade_years(fig)
+    if zero_line:
+        fig.add_hline(y=0, **REFERENCE_LINE)
+    return fig
+
+
+def country_bar_chart(df, value, title, value_label, text_format="+.1f",
+                      unit="", zero_line=True):
+    """Horizontal bars, one per country, sorted from lowest to highest."""
+    plot_df = df.dropna(subset=[value]).sort_values(value)
+    if plot_df.empty:
+        return None
+    fig = px.bar(
+        plot_df,
+        x=value,
+        y="country",
+        orientation="h",
+        color="country",
+        color_discrete_map=COUNTRY_COLORS,
+        title=title,
+        labels={value: value_label, "country": ""},
+    )
+    fig.update_traces(
+        texttemplate=f"%{{x:{text_format}}}{unit}",
+        textposition="outside",
+        cliponaxis=False,
+        hovertemplate=f"%{{y}}: %{{x:{text_format}}}{unit}<extra></extra>",
+    )
+    fig.update_yaxes(
+        categoryorder="array", categoryarray=list(plot_df["country"])
+    )
+    fig.update_layout(showlegend=False, bargap=0.35)
+    # Leave room beyond the longest bar so its value label is not clipped.
+    low = min(0.0, float(plot_df[value].min()))
+    high = max(0.0, float(plot_df[value].max()))
+    pad = (high - low) * 0.2 or 1.0
+    fig.update_xaxes(range=[low - pad if low < 0 else low, high + pad])
+    if zero_line:
+        fig.add_vline(x=0, line_color="#8C8079", line_width=1)
+    return fig
+
+
+def show_figure(fig, key, height=440, empty_message="No data for this selection."):
+    """Style and display a chart inside a bordered card, or an info message."""
+    with st.container(border=True):
+        if fig is None:
+            st.info(empty_message)
+            return
+        style_figure(fig, height=height)
+        st.plotly_chart(fig, width="stretch", key=key)

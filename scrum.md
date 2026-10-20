@@ -36,9 +36,19 @@ Pair review major data transformations and claims across roles. Roles are a star
 - [x] Updated setup instructions and future-session guidance for Streamlit.
 - [x] Cleaned the 3 World Bank indicators (GDP growth, inflation, unemployment) into `data/processed/{gdp_growth,inflation,unemployment}/`, matching the 7-country format of the stringency and cases/deaths datasets.
 - [x] Built `merged_dataset_by_month.csv` and `merged_dataset_by_year.csv` in `data/processed/`, limited to the 2020-2022 window every dataset covers (see `data/processed/merge_quality_report.md`).
+- [x] Built the EDA notebook and the interactive Streamlit dashboard (overview and dashboard pages).
+- [x] October 20 (visualisation, design, testing, and integration):
+  - Added the missing `scipy` dependency; the app now starts after `pip install -r requirements.txt`.
+  - Fixed country colours and markers on every chart (colour-blind-safe palette), a fixed light theme, and CSS readability tweaks.
+  - Removed the misleading "strongest correlation" headline; added Bonferroni-adjusted p-values and within-year checks.
+  - Added app smoke tests, processed-data integrity tests, and findings checks (`python -m unittest discover -s tests`).
+  - Merged the two findings files into the single authoritative `findings_summary.md`.
+  - Corrected the README setup and data-pipeline commands.
+- [x] October 20 (design): multi-page dashboard with a Home page (virus-and-globe illustration and navigation cards) and six research pages (Economic Growth, Labour Market, Inflation, Pandemic & Policy Response, Country Comparisons, Key Findings); shared filters, editorial theme, shared analysis code in `src/analysis/`, and tests for every page.
+- [x] Installed dependencies in the `covid-dashboard` Conda environment and smoke-tested the Streamlit app.
 - [ ] Assign names and confirm ownership.
-- [ ] Agree final countries, measures, and source choices.
-- [ ] Install dependencies in the `covid-dashboard` Conda environment and smoke-test the Streamlit app.
+- [ ] Agree final countries, measures, and source choices (current dashboard: 7 countries, 2018–2024 economy, 2020–2022 pandemic).
+- [ ] Team sign-off on the method caveats in `findings_summary.md` (2018–2019 baseline, trend benchmark, equal-weight impact ranking).
 
 ## Remaining work before October 21
 

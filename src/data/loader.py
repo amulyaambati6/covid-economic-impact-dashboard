@@ -87,8 +87,6 @@ def load_economic_data(indicator: str) -> pd.DataFrame:
             f"Unsupported indicator: {indicator}"
         )
 
-    file_path = PROCESSED_DATA / f"{indicator.replace('_pct', '_pct')}_annual.csv"
-
     # Use the actual filenames in data/processed.
     filename_map = {
         "gdp_growth_pct": "gdp_growth_pct_annual.csv",

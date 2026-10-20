@@ -21,9 +21,13 @@ env/
 Thumbs.db
 
 # Downloaded or generated data
+# Intermediate pipeline outputs stay local; the top-level CSV files in
+# data/processed/ are tracked because the app reads them.
 data/processed/*
 !data/processed/.gitkeep
-!data/processed/coverage_audit.csv
+!data/processed/*.csv
+clean_stringency/
+clean_cases_deaths/
 
 # Generated outputs and logs
 *.log

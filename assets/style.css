@@ -1,9 +1,620 @@
-/* Simple, readable defaults for the student dashboard. */
-:root { font-family: system-ui, sans-serif; color: #1f2937; background: #f4f7fb; }
-body { margin: 0; }
-.app-shell { max-width: 960px; margin: 0 auto; padding: 0 1.25rem; }
-.site-header { padding: 1.5rem 0; border-bottom: 1px solid #cbd5e1; }
-h1 { margin: 0 0 0.75rem; color: #123b5d; }
-nav a { color: #075985; margin-right: 0.35rem; }
-.page-content { min-height: 55vh; padding: 2rem 0; line-height: 1.6; }
-footer { border-top: 1px solid #cbd5e1; padding: 1rem 0 2rem; color: #526174; font-size: 0.9rem; }
+/* =====================================================================
+   COVID-19 Economic Impact dashboard - editorial design system.
+   Colours and fonts come from .streamlit/config.toml; this file adds the
+   page components. Loaded on every page by app.py.
+   ===================================================================== */
+
+:root {
+  --ivory: #FBF7F1;
+  --paper: #FFFDF9;
+  --blush: #F5EAE5;
+  --blush-strong: #F1D5D5;
+  --rose: #A8445F;
+  --rose-dark: #8E3550;
+  --rose-soft: #E3A9B3;
+  --navy: #1C2B44;
+  --muted: #5B6475;
+  --line: #E8DCD4;
+  --shadow: 0 1px 2px rgba(28, 43, 68, 0.04), 0 8px 24px rgba(28, 43, 68, 0.06);
+  --shadow-lift: 0 2px 4px rgba(28, 43, 68, 0.05), 0 14px 32px rgba(168, 68, 95, 0.16);
+  --serif: "Source Serif 4", Georgia, "Times New Roman", serif;
+}
+
+/* ---------- Page frame ---------- */
+[data-testid="stMainBlockContainer"], .block-container {
+  max-width: 1440px;
+  /* Streamlit's fixed top bar is 60px tall; start the page below it. */
+  padding-top: 4.75rem;
+}
+
+/* Body text slightly larger for projection */
+[data-testid="stMarkdownContainer"] p,
+[data-testid="stMarkdownContainer"] li {
+  line-height: 1.6;
+}
+[data-testid="stCaptionContainer"] {
+  color: var(--muted);
+}
+
+.eyebrow {
+  margin: 0 0 0.4rem !important;
+  font-size: 0.78rem !important;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--rose) !important;
+}
+
+/* ---------- KPI cards (st.metric with border=True) ---------- */
+[data-testid="stMetric"] {
+  background: var(--paper);
+  box-shadow: var(--shadow);
+  padding: 1rem 1.15rem !important;
+}
+[data-testid="stMetricLabel"] p,
+[data-testid="stMetricLabel"] div {
+  /* Wrap long labels instead of cutting them off with "..." */
+  white-space: normal !important;
+  overflow: visible !important;
+  text-overflow: clip !important;
+  font-size: 0.9rem !important;
+  color: var(--muted);
+}
+[data-testid="stMetricValue"],
+[data-testid="stMetricValue"] p {
+  font-size: 2rem !important;
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--navy);
+}
+
+/* ---------- Bordered containers = chart and table cards ---------- */
+[data-testid="stVerticalBlockBorderWrapper"],
+div[data-testid="stVerticalBlock"][class*="BorderWrapper"],
+.stVerticalBlock.st-emotion-cache-bordered {
+  background: var(--paper);
+  box-shadow: var(--shadow);
+  border-radius: 0.9rem;
+}
+
+/* ---------- Sidebar ---------- */
+[data-testid="stSidebarNav"] a[aria-current="page"] {
+  background: var(--blush-strong);
+}
+[data-testid="stSidebarNav"] a[aria-current="page"] span {
+  color: var(--rose-dark);
+  font-weight: 600;
+}
+[data-testid="stNavSectionHeader"] {
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-size: 0.72rem !important;
+  color: var(--muted) !important;
+}
+
+/* ---------- Tabs ---------- */
+[data-baseweb="tab"] p {
+  font-weight: 600;
+  font-size: 0.98rem;
+}
+
+/* ---------- Page header ---------- */
+.page-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 2rem;
+  padding-bottom: 1.25rem;
+  margin-bottom: 1.4rem;
+  border-bottom: 1px solid var(--line);
+}
+.page-head__title {
+  font-family: var(--serif) !important;
+  font-size: clamp(2rem, 3vw, 2.8rem) !important;
+  font-weight: 650 !important;
+  line-height: 1.1 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  color: var(--navy) !important;
+}
+.page-head__question {
+  margin: 0.4rem 0 0.6rem !important;
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 1.22rem !important;
+  color: var(--rose) !important;
+}
+.page-head__lede {
+  max-width: 75ch;
+  margin: 0 !important;
+  color: var(--muted) !important;
+}
+.page-head__icon {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 86px;
+  height: 86px;
+  border-radius: 50%;
+  color: var(--rose);
+  background: radial-gradient(circle at 35% 30%, #FCEFEE, var(--blush-strong));
+}
+
+/* ---------- Section headings inside a page ---------- */
+.section-title h3 {
+  margin: 1.8rem 0 0.15rem !important;
+  padding: 0 !important;
+  font-family: var(--serif) !important;
+  font-size: 1.45rem !important;
+  font-weight: 600 !important;
+  color: var(--navy) !important;
+}
+.section-sub {
+  margin: 0 0 0.75rem !important;
+  color: var(--muted) !important;
+  font-size: 0.96rem !important;
+}
+
+/* ---------- Insight, notes, callout ---------- */
+.insight-card,
+.notes-card,
+.callout,
+.inline-insight,
+.verdict {
+  border: 1px solid var(--line);
+  border-radius: 0.9rem;
+}
+.insight-card {
+  background: var(--paper);
+  border-left: 4px solid var(--rose);
+  padding: 1.1rem 1.25rem 0.6rem;
+  box-shadow: var(--shadow);
+}
+.insight-card h4,
+.notes-card h4,
+.finding-card h4,
+.explainer__item h4 {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0 0 0.6rem !important;
+  padding: 0 !important;
+  font-family: var(--serif) !important;
+  font-size: 1.12rem !important;
+  font-weight: 600 !important;
+  color: var(--navy) !important;
+}
+.insight-card h4 svg,
+.finding-card h4 svg,
+.explainer__item h4 svg {
+  color: var(--rose);
+  flex: none;
+}
+.insight-card ul,
+.notes-card ul,
+.finding-card ul,
+.verdict ul {
+  padding-left: 1.1rem !important;
+  margin: 0 !important;
+}
+.insight-card li,
+.finding-card li {
+  margin-bottom: 0.55rem !important;
+  font-size: 0.97rem !important;
+}
+.insight-card b,
+.finding-card b {
+  color: var(--rose-dark);
+}
+.notes-card {
+  margin-top: 1.8rem;
+  padding: 1.1rem 1.3rem 0.7rem;
+  background: #F7EFEB;
+}
+.notes-card h4 {
+  color: var(--muted) !important;
+}
+.notes-card h4 svg {
+  color: var(--muted);
+}
+.notes-card li {
+  margin-bottom: 0.4rem !important;
+  font-size: 0.93rem !important;
+  color: #3B4658;
+}
+.callout {
+  margin: 0.6rem 0 1rem;
+  padding: 0.85rem 1.1rem;
+  background: #FFF6F3;
+  border-left: 4px solid var(--rose-soft);
+}
+.inline-insight {
+  margin: 0.5rem 0 0 !important;
+  padding: 0.75rem 1rem;
+  background: var(--paper);
+}
+
+/* ---------- Key findings ---------- */
+.finding-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1rem;
+}
+.finding-card {
+  display: flex;
+  flex-direction: column;
+  padding: 1.2rem 1.3rem 1rem;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 0.9rem;
+  box-shadow: var(--shadow);
+}
+.finding-card__link {
+  margin-top: auto;
+  padding-top: 0.6rem;
+  font-weight: 600;
+  color: var(--rose) !important;
+  text-decoration: none !important;
+}
+.finding-card__link:hover,
+.finding-card__link:focus-visible {
+  text-decoration: underline !important;
+}
+.verdict {
+  padding: 1.2rem 1.4rem 0.8rem;
+  background: var(--paper);
+  box-shadow: var(--shadow);
+}
+.verdict__answer {
+  margin: 0 0 0.6rem !important;
+  font-family: var(--serif);
+  font-size: 1.7rem !important;
+  font-weight: 650;
+  color: var(--rose) !important;
+}
+.verdict__cols {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+.verdict h5 {
+  margin: 0 0 0.4rem !important;
+  padding: 0 !important;
+  font-size: 0.85rem !important;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted) !important;
+}
+
+/* ---------- About page ---------- */
+.explainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1rem;
+  margin: 0.5rem 0 1rem;
+}
+.explainer__item {
+  padding: 1.1rem 1.2rem 0.4rem;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 0.9rem;
+}
+.explainer__item p {
+  font-size: 0.95rem !important;
+  color: #3B4658;
+}
+.source-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 0.9rem;
+  overflow: hidden;
+  font-size: 0.95rem;
+}
+.source-table th {
+  background: var(--blush);
+  text-align: left;
+  font-weight: 600;
+}
+.source-table th,
+.source-table td {
+  padding: 0.6rem 0.85rem;
+  border-bottom: 1px solid var(--line);
+}
+.plain-list li {
+  margin-bottom: 0.4rem !important;
+}
+
+/* ---------- Country chip ---------- */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  white-space: nowrap;
+}
+.chip__dot {
+  width: 0.65rem;
+  height: 0.65rem;
+  border-radius: 50%;
+}
+
+/* =====================================================================
+   HOMEPAGE
+   ===================================================================== */
+.hero-wrap {
+  container: hero / inline-size;
+}
+.hero {
+  display: grid;
+  grid-template-columns: minmax(270px, 0.68fr) minmax(430px, 1.32fr);
+  gap: 1.5rem 2rem;
+  align-items: center;
+  padding: 0.5rem 0 1.5rem;
+}
+.hero__title {
+  margin: 0 0 1.1rem !important;
+  padding: 0 !important;
+  font-family: var(--serif) !important;
+  font-size: clamp(2.1rem, 3vw, 3.4rem) !important;
+  font-weight: 650 !important;
+  line-height: 1.06 !important;
+  letter-spacing: -0.01em;
+  color: var(--navy) !important;
+}
+.hero__title em {
+  font-style: italic;
+  color: var(--rose);
+}
+.hero__lede {
+  max-width: 46ch;
+  font-size: 1.08rem !important;
+  color: #3B4658 !important;
+}
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-top: 0.6rem;
+  padding: 0.8rem 1.5rem;
+  border-radius: 999px;
+  background: var(--rose);
+  color: #FFFFFF !important;
+  font-weight: 600;
+  text-decoration: none !important;
+  box-shadow: 0 8px 20px rgba(168, 68, 95, 0.28);
+  transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+}
+.btn-primary:hover,
+.btn-primary:focus-visible {
+  background: var(--rose-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 26px rgba(168, 68, 95, 0.34);
+}
+.stat-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.9rem 1.8rem;
+  margin: 2rem 0 0 !important;
+  padding: 1.1rem 0 0 !important;
+  border-top: 1px solid var(--line);
+  list-style: none !important;
+}
+.stat-strip li {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0 !important;
+  color: var(--muted);
+  font-size: 0.92rem !important;
+}
+.stat-strip li::marker {
+  content: "";
+}
+.stat-strip svg {
+  color: var(--rose);
+}
+.stat-strip b {
+  color: var(--navy);
+  font-size: 1.1rem;
+}
+
+/* --- Illustration and orbiting cards --- */
+.orbit {
+  container: orbit / inline-size;
+  position: relative;
+  width: 100%;
+  aspect-ratio: 760 / 600;
+}
+.orbit-art {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+.splash { fill: #F2C4CB; opacity: 0.55; }
+.speck { fill: #D98A97; opacity: 0.6; }
+.land { fill: #B9CFA8; stroke: #6F8C66; stroke-width: 1.3; }
+.grid-line { fill: none; stroke: #FFFFFF; stroke-width: 1.1; opacity: 0.6; }
+.globe-shade { fill: #1C2B44; opacity: 0.1; }
+.globe-outline { fill: none; stroke: #2C3E57; stroke-width: 2.4; }
+.spike { fill: none; stroke: #9C3D52; stroke-width: 3.4; stroke-linecap: round; }
+.knob { fill: #D46A7C; stroke: #8E3448; stroke-width: 1.6; }
+.knob-hi { fill: #FFFFFF; opacity: 0.55; }
+.virus-outline { fill: none; stroke: #8E3448; stroke-width: 2.4; }
+.pit { fill: #C05E71; opacity: 0.55; stroke: #9C3D52; stroke-width: 0.8; }
+.texture { fill: none; stroke: #A84A5E; stroke-width: 1.4; opacity: 0.55; stroke-linecap: round; }
+.link {
+  fill: none;
+  stroke: #C77B8B;
+  stroke-width: 1.6;
+  stroke-dasharray: 4 6;
+  stroke-linecap: round;
+  opacity: 0.55;
+  transition: opacity 0.25s, stroke 0.25s, stroke-width 0.25s;
+}
+
+.float {
+  animation: drift 8s ease-in-out infinite;
+}
+.virus {
+  cursor: pointer;
+  transform-box: view-box;
+  transform-origin: 408px 338px;
+  transition: transform 0.4s ease;
+}
+.virus-spin {
+  transform-box: view-box;
+  transform-origin: 408px 338px;
+  animation: spin 160s linear infinite;
+}
+.virus:hover {
+  transform: scale(1.05);
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes drift {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+@keyframes dash { to { stroke-dashoffset: -40; } }
+
+.orbit-card {
+  position: absolute;
+  z-index: 2;
+  width: 30%;
+  display: flex;
+  align-items: center;
+  gap: 2cqw;
+  padding: 1.7cqw 1.9cqw;
+  background: rgba(255, 253, 249, 0.94);
+  border: 1px solid var(--line);
+  border-radius: 2.2cqw;
+  box-shadow: var(--shadow);
+  color: var(--navy) !important;
+  text-decoration: none !important;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+.orbit-card__icon {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 6.4cqw;
+  height: 6.4cqw;
+  min-width: 34px;
+  min-height: 34px;
+  border-radius: 50%;
+  background: #F6E3E2;
+  color: var(--rose);
+}
+.orbit-card__icon svg {
+  width: 60%;
+  height: 60%;
+}
+.orbit-card__title {
+  display: block;
+  font-family: var(--serif);
+  font-weight: 650;
+  font-size: clamp(12.5px, 2.45cqw, 18px);
+  line-height: 1.15;
+  color: var(--navy);
+}
+.orbit-card__q {
+  display: block;
+  margin-top: 0.35cqw;
+  font-size: clamp(10.5px, 1.6cqw, 13px);
+  line-height: 1.3;
+  color: var(--muted);
+}
+.orbit-card:hover,
+.orbit-card:focus-visible {
+  transform: translateY(-3px);
+  border-color: var(--rose-soft);
+  box-shadow: var(--shadow-lift);
+}
+.orbit-card:focus-visible,
+.btn-primary:focus-visible,
+.finding-card__link:focus-visible {
+  /* !important: Streamlit removes outlines from links by default */
+  outline: 3px solid var(--rose) !important;
+  outline-offset: 3px;
+}
+
+/* Hovering the virus highlights every destination */
+.orbit:has(.virus:hover) .orbit-card {
+  border-color: var(--rose-soft);
+  box-shadow: var(--shadow-lift);
+}
+.orbit:has(.virus:hover) .link {
+  opacity: 1;
+  stroke: var(--rose);
+  animation: dash 1.6s linear infinite;
+}
+/* Hovering or focusing one card highlights its own connector */
+.orbit:has(.orbit-card--growth:hover, .orbit-card--growth:focus-visible) .link-growth,
+.orbit:has(.orbit-card--labour:hover, .orbit-card--labour:focus-visible) .link-labour,
+.orbit:has(.orbit-card--inflation:hover, .orbit-card--inflation:focus-visible) .link-inflation,
+.orbit:has(.orbit-card--policy:hover, .orbit-card--policy:focus-visible) .link-policy,
+.orbit:has(.orbit-card--comparison:hover, .orbit-card--comparison:focus-visible) .link-comparison,
+.orbit:has(.orbit-card--findings:hover, .orbit-card--findings:focus-visible) .link-findings {
+  opacity: 1;
+  stroke: var(--rose);
+  stroke-width: 2.4;
+  animation: dash 1.6s linear infinite;
+}
+.orbit-hint {
+  position: absolute;
+  right: 1%;
+  bottom: 0;
+  margin: 0 !important;
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: clamp(11px, 1.6cqw, 14px) !important;
+  color: var(--muted) !important;
+}
+
+/* Homepage explainer row */
+.explainer h4 svg {
+  color: var(--rose);
+}
+
+/* Narrower main area (sidebar open on a laptop): stack text above art */
+@container hero (max-width: 860px) {
+  .hero {
+    grid-template-columns: 1fr;
+  }
+  .hero__lede {
+    max-width: 65ch;
+  }
+}
+/* Phones and small windows: cards become a simple grid under the art */
+@container hero (max-width: 620px) {
+  .orbit {
+    aspect-ratio: auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.6rem;
+  }
+  .orbit-art {
+    position: relative;
+    grid-column: 1 / -1;
+    height: auto;
+    aspect-ratio: 760 / 600;
+  }
+  .orbit-card {
+    position: static;
+    width: auto;
+    padding: 0.7rem 0.8rem;
+    border-radius: 0.8rem;
+    gap: 0.6rem;
+  }
+  .orbit-card__title { font-size: 0.95rem; }
+  .orbit-card__q { font-size: 0.8rem; }
+  .links, .orbit-hint { display: none; }
+}
+
+/* Respect the user's reduced-motion setting */
+@media (prefers-reduced-motion: reduce) {
+  .float, .virus-spin, .link { animation: none !important; }
+  .orbit-card, .btn-primary, .virus { transition: none; }
+}
