@@ -1,9 +1,22 @@
 # COVID-19 and the Global Economy
 ## Project Documentation
 
-- [Team Planning Document (Google Docs)](https://docs.google.com/document/d/1mCDpxkIXW9CLHjlG38D0ouK-Z_i__Tn6C99cpsMyHT8/edit?usp=sharing)
+- [Project document (Google Docs)](https://docs.google.com/document/d/1mCDpxkIXW9CLHjlG38D0ouK-Z_i__Tn6C99cpsMyHT8/edit?usp=sharing)
 
-CentraleDigitalLab Data Storytelling university project exploring how COVID-19 affected the global economy. The presentation is planned for 20 minutes by a team of four, with a deadline of October 21, 2026.
+CentraleDigitalLab Data Storytelling university project exploring how COVID-19 affected the global economy: a multi-page interactive dashboard and a 20-minute presentation by a team of four, due October 21, 2026.
+
+The dashboard is built with **Streamlit** and **Plotly**. The brief suggests Plotly Dash; Streamlit was approved as an alternative, and every chart is an interactive Plotly figure.
+
+## Team
+
+| Member | Role |
+| --- | --- |
+| Othmane | Data collection and preparation: sources, coverage checks, cleaning and merging scripts |
+| Sara | Exploratory data analysis: statistics, trends, findings, limitations (EDA notebook) |
+| Saad | Dashboard development: pages, filters, interactivity |
+| Amulya | Visualisation, design, testing, and integration |
+
+All members review the findings and prepare the presentation.
 
 ## Research question
 
@@ -11,11 +24,27 @@ CentraleDigitalLab Data Storytelling university project exploring how COVID-19 a
 
 The dashboard compares seven countries: the United States, India, France, China, Brazil, Germany, and Rwanda. Economic indicators (World Bank GDP growth, unemployment, and inflation) cover 2018–2024; COVID-19 cases, deaths, and government-response stringency cover 2020–2022, the period every source covers. The findings describe these seven countries only, not the whole world.
 
-The headline findings are in [`findings_summary.md`](findings_summary.md), the single authoritative findings document. Its key figures are checked against the data by `tests/test_findings.py`.
+## Headline findings
+
+The full, authoritative findings are in [`findings_summary.md`](findings_summary.md); its key figures are recomputed from the data by `tests/test_findings.py`.
+
+- **Growth:** median GDP growth across the seven countries fell from 2.6% (2019) to −3.3% (2020) and rebounded to 6.9% (2021); 6 of 7 economies contracted in 2020 (China kept growing).
+- **Jobs:** unemployment rose most in the United States (+4.4 percentage points, 2019 to 2020); Rwanda's peak came later (15.8% in 2021).
+- **Prices:** median inflation was 2.4% in 2020 and 6.9% in 2022, so prices rose fastest after the output shock, not during it.
+- **Pandemic and policy:** the 2020 GDP shortfall did not follow reported deaths (rank correlation +0.07, n = 7). Of 9 pooled correlation tests, none remains significant after a multiple-testing correction.
+- **Recovery:** all 7 economies were larger than in 2019 by 2022, but 6 of 7 were below their 2018–2019 growth trend in 2024.
+
+These are descriptive associations for seven countries, not causal estimates (see the limitations in the app and in `findings_summary.md`).
 
 ## Setup
 
-Activate the existing Conda environment in Anaconda Prompt or the VS Code terminal, then install the dependencies:
+The project uses Python 3.12 in an Anaconda environment (as the brief recommends). On a new computer, create the environment once:
+
+```powershell
+conda create -n covid-dashboard python=3.12
+```
+
+Then, in Anaconda Prompt or the VS Code terminal, from the project root:
 
 ```powershell
 conda activate covid-dashboard
@@ -65,6 +94,33 @@ python -m unittest discover -s tests
 | `tests/test_processed_data.py` | Seven countries, expected years and months, no duplicate keys, no missing values in the merged tables, value ranges, yearly totals equal monthly sums. |
 | `tests/test_findings.py` | Key figures quoted in `findings_summary.md` recomputed from the processed data. |
 | `tests/test_data_validation.py` | The `missing_years()` helper. |
+
+The tests use Python's built-in `unittest`, so `pytest` is not needed.
+
+## Deployment (Streamlit Community Cloud)
+
+The app runs on [Streamlit Community Cloud](https://share.streamlit.io) straight from this GitHub repository. Everything it needs is committed: the entrypoint `app.py`, `requirements.txt`, the theme in `.streamlit/config.toml`, the files in `assets/`, and the processed CSV files in `data/processed/`. All paths are relative to the project folder, no secrets are used, and no system packages are needed.
+
+To deploy (or redeploy under a new account):
+
+1. Sign in at <https://share.streamlit.io> with GitHub and authorise Streamlit. Deploying needs admin access to the repository; a private repository also needs the private-repository authorisation under *Settings → Linked accounts*.
+2. Click **Create app → Yup, I have an app**, then enter repository `amulyaambati6/covid-economic-impact-dashboard`, branch `main`, and main file path `app.py`.
+3. Python version: 3.12 (Community Cloud's default; set it under *Advanced settings* if a different default is shown).
+4. Click **Deploy**. Every later push to `main` redeploys the app automatically.
+
+`.devcontainer/devcontainer.json` lets the repository open in GitHub Codespaces with the dependencies installed and the app started.
+
+## Assignment requirements
+
+| Requirement in the brief | Status |
+| --- | --- |
+| Data collection and preprocessing | Done: five sources, cleaning and merge scripts in `src/data/`, quality reports, reproducible rebuild (below) |
+| Critical analysis (are the data sufficient?) | Draft assessment on the Key Findings page, for team review |
+| Multi-page interactive dashboard | Done: Streamlit (approved alternative to Dash) with Plotly charts |
+| Semantic elements (text, labels, annotations) | Research question, insights, and limitations on every page |
+| Professional visual design (CSS) | Done: custom theme and stylesheet |
+| Deployment (optional) | Prepared for Streamlit Community Cloud (above) |
+| Bonus: MySQL database | Not done. It is an optional bonus challenge; the dashboard reads the processed CSV files directly |
 
 ## Check economic indicator coverage
 
@@ -124,6 +180,7 @@ pages/economic_growth.py ... One module per research page (labour_market, inflat
 pages/home.py                Full report: all research pages on one page
 pages/overview.py            About & methods
 .streamlit/config.toml       Theme: colours, fonts, toolbar
+.devcontainer/               GitHub Codespaces configuration
 assets/                      style.css (design system), logo.svg, logo_icon.svg
 src/data/                    Data loading (loader.py, prepare.py), cleaning, merging, validation
 src/analysis/                Shared calculations: economics.py (baselines, GDP index, tables),
